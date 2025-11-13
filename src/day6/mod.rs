@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use rayon::iter::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
+
 pub fn run(input: String) -> (String, String, String) {
     let mut lines = input.lines();
     let mut mentors = 0;
@@ -34,18 +36,23 @@ pub fn run(input: String) -> (String, String, String) {
         .repeat(1000)
         .chars()
         .collect::<Vec<char>>();
-    let mut part3 = 0;
-    for (i, letter) in camp.iter().enumerate() {
-        let start = i.saturating_sub(1000);
-        let end = if i + 1000 >= camp.len() {
-            camp.len() - 1
-        } else {
-            i + 1000
-        };
-        if letter.is_lowercase() {
-            part3 += count_mentors_in_range(start, end, letter, &camp);
-        }
-    }
+    let part3: usize = camp
+        .par_iter()
+        .enumerate()
+        .map(|(i, letter)| {
+            let start = i.saturating_sub(1000);
+            let end = if i + 1000 >= camp.len() {
+                camp.len() - 1
+            } else {
+                i + 1000
+            };
+            if letter.is_lowercase() {
+                count_mentors_in_range(start, end, letter, &camp)
+            } else {
+                0
+            }
+        })
+        .sum();
 
     (format!("{part1}"), format!("{part2}"), format!("{part3}"))
 }
