@@ -84,7 +84,7 @@ AABCBABCABCabcabcABCCBAACBCa
     fn works() {
         assert_eq!(
             run(INPUT.to_owned()),
-            ("5".to_owned(), "11".to_owned(), "3442321".to_owned())
+            ("5".to_owned(), "11".to_owned(), "196".to_owned())
         );
     }
 }

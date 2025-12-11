@@ -1,6 +1,7 @@
 use std::{error::Error, fs, path::Path, time::Instant};
 
 mod day1;
+mod day11;
 mod day2;
 mod day3;
 mod day4;
@@ -46,6 +47,7 @@ fn run_day(day: i32, print: bool) -> Result<(), Box<dyn Error>> {
         7 => day7::run,
         8 => day8::run,
         9 => day9::run,
+        11 => day11::run,
         _ => unknown_day,
     };
     let now = Instant::now();
